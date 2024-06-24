@@ -84,5 +84,5 @@ pyinstaller --onedir .\program.py --name uptime-kuma-agent_winx64 --distpath .\r
 After building, the output directory will contain the executable:
 
 ```bash
-.\release\winx64\dist
+.\release\winx64\dist\uptime-kuma-agent_winx64
 ```
