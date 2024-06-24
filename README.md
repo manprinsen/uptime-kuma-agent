@@ -53,6 +53,12 @@ To test the script, run the following command:
 python3 program.py --isp "100.0.0.1" --base_url "https://monitoring.carlbomsdata.se/api/push/kNSkNgEjV4"
 ```
 
+For other testing.
+
+```bash
+--isp "100.0.0.1" --base_url "https://monitoring.carlbomsdata.se/api/push/kNSkNgEjV4"
+```
+
 This example will ping the ISP server at `8.8.8.8` and send the results to the specified URL every 60 seconds.
 
 ```bash
@@ -67,10 +73,16 @@ To build the project into a standalone executable, use PyInstaller:
 pyinstaller --onedir program.py
 ```
 
+To build for Windows please run:
+
+```bash
+pyinstaller --onedir .\program.py --name uptime-kuma-agent_winx64 --distpath .\release\winx64\dist --workpath .\release\winx64\build --specpath .\release\winx64\
+```
+
 ### Output
 
 After building, the output directory will contain the executable:
 
 ```bash
-dist/program
+.\release\winx64\dist
 ```
