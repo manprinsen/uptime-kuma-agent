@@ -1,8 +1,8 @@
-# uptime-kuma-agent
+# uptime-kuma-agent on non-embedded system
 
 ## Project Setup and Usage
 
-This document provides instructions for setting up and using the Python project. The project involves pinging an ISP and sending the results to a specified base URL.
+This document provides instructions for setting up and using the program.py script. The script involves pinging an ISP and sending the results to a specified base URL.
 
 ### Prerequisites
 
@@ -30,6 +30,10 @@ This document provides instructions for setting up and using the Python project.
     ```bash
     .\venv\Scripts\activate
     ```
+
+### Get Source Script
+
+Use git clone of this repository or copy program.py to your machine (non-embedded system).
 
 ### Installing Dependencies
 
@@ -91,11 +95,83 @@ To build for Raspberry Pi please run:
 pyinstaller --onedir program.py --name uptime-kuma-agent_linux_aarch64 --distpath release/linux_aarch64/dist --workpath release/linux_aarch64/build --specpath release/linux_aarch64
 ```
 
+### Deployment
 
-### Output
+Schedule executable using Windows Task Manager:
 
-After building, the output directory will contain the executable:
+....
+
+Schedule executable using crontab:
+
+Use crontab to schedule the executable:
 
 ```bash
-.\release\winx64\dist\uptime-kuma-agent_winx64
+crontab -e
+```
+
+Enter the following line to run the script every minute:
+
+```bash
+* * * * * /root/program --isp "1.1.1.1" --base_url "https://monitoring.carlbomsdata.se/api/push/fUb1rTKnVW"
+```
+
+Schedule executable using Task Scheduler on Synology NAS:
+
+...
+
+
+# uptime-kuma-agent on embedded system
+
+## Project Setup and Usage
+
+This document provides instructions for setting up and using the program.sh. The script involves pinging an ISP and sending the results to a specified base URL.
+
+### Prerequisites
+
+- SSH with root access
+
+### Get Source Script
+
+Use git clone of this repository or copy program.sh to your machine (embedded system).
+
+### Script Privileges
+
+Run the following command to make the script executable privileges:
+
+```bash
+chmod +x program.sh
+```
+
+### Testing the Script
+
+To test the script, run the following command:
+
+```bash
+./program.sh --isp "100.0.0.1" --base_url "https://monitoring.carlbomsdata.se/api/push/kNSkNgEjV4"
+```
+
+For other testing.
+
+```bash
+--isp "100.0.0.1" --base_url "https://monitoring.carlbomsdata.se/api/push/kNSkNgEjV4"
+```
+
+This example will ping the ISP server at `8.8.8.8` and send the results to the specified URL every 60 seconds.
+
+```bash
+program.py --isp "8.8.8.8" --base_url "https://monitoring.carlbomsdata.se/api/push/kNSkNgEjV4" --interval 60
+```
+
+### Deployment
+
+Use crontab to schedule the executable:
+
+```bash
+crontab -e
+```
+
+Enter the following line to run the script every minute:
+
+```bash
+* * * * * /root/program.sh --isp "1.1.1.1" --base_url "https://monitoring.carlbomsdata.se/api/push/fUb1rTKnVW"
 ```
