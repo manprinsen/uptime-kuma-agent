@@ -82,7 +82,7 @@ pyinstaller --onedir .\program.py --name uptime-kuma-agent_win_x64 --distpath .\
 To build for Ubuntu please run:
 
 ```bash
-pyinstaller --onedir .\program.py --name uptime-kuma-agent_win_x64 --distpath .\release\win_x64\dist --workpath .\release\win_x64\build --specpath .\release\win_x64\
+pyinstaller --onedir program.py --name uptime-kuma-agent_linux_x64 --distpath release/linux_x64/dist --workpath release/linux_x64/build --specpath release/linux_x64
 ```
 
 To build for Raspberry Pi please run:
