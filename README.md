@@ -57,12 +57,6 @@ To test the script, run the following command:
 python3 program.py --isp "100.0.0.1" --base_url "https://monitoring.carlbomsdata.se/api/push/kNSkNgEjV4"
 ```
 
-For other testing.
-
-```bash
---isp "100.0.0.1" --base_url "https://monitoring.carlbomsdata.se/api/push/kNSkNgEjV4"
-```
-
 This example will ping the ISP server at `8.8.8.8` and send the results to the specified URL every 60 seconds.
 
 ```bash
@@ -150,18 +144,6 @@ To test the script, run the following command:
 ./program.sh --isp "100.0.0.1" --base_url "https://monitoring.carlbomsdata.se/api/push/kNSkNgEjV4"
 ```
 
-For other testing.
-
-```bash
---isp "100.0.0.1" --base_url "https://monitoring.carlbomsdata.se/api/push/kNSkNgEjV4"
-```
-
-This example will ping the ISP server at `8.8.8.8` and send the results to the specified URL every 60 seconds.
-
-```bash
-program.py --isp "8.8.8.8" --base_url "https://monitoring.carlbomsdata.se/api/push/kNSkNgEjV4" --interval 60
-```
-
 ### Deployment
 
 Use crontab to schedule the executable:
@@ -173,5 +155,5 @@ crontab -e
 Enter the following line to run the script every minute:
 
 ```bash
-* * * * * /root/program.sh --isp "1.1.1.1" --base_url "https://monitoring.carlbomsdata.se/api/push/fUb1rTKnVW"
+* * * * * /root/uptime-kuma-agent/program.sh --isp "1.1.1.1" --base_url "https://monitoring.carlbomsdata.se/api/push/fUb1rTKnVW" >> /root/uptime-kuma-agent/debug.log 2>&1
 ```
