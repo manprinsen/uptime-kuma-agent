@@ -1,46 +1,41 @@
 #!/bin/sh
 
-# Constants
-LOG_FILE="log.txt"
-MAX_LOG_SIZE=$((10 * 1024 * 1024)) # 10 MB
-CURL_TIMEOUT=5 # 10 seconds
+# Function to perform ping test
+perform_ping() {
+    ISP="$1"
+    # Perform ping and capture result
+    ping_result=$(ping -c 1 "$ISP" | awk -F'/| ' '/^rtt/{print $8}')
+    if [ -z "$ping_result" ]; then
+        ping_result="N/A"
+    fi
+    echo "Ping result for $ISP: $ping_result ms"
+}
 
-# Function to set up logging
-setup_logging() {
-    if [ ! -f $LOG_FILE ]; then
-        touch $LOG_FILE
+# Function to perform HTTP request
+perform_http_request() {
+    BASE_URL="$1"
+    ping_result="$2"
+    # Construct URL with ping result
+    url="${BASE_URL}?status=up&msg=OK&ping=${ping_result}"
+
+    timeout=10
+    
+    # Perform HTTP request using curl
+    curl -m $timeout -s -o /dev/null "$url"
+    curl_exit_code=$?
+
+    if [ $curl_exit_code -ne 0 ]; then
+        echo "$(date '+%Y-%m-%d %H:%M:%S') Failed to execute HTTP request to $BASE_URL (curl exit code: $curl_exit_code)"
+    else
+        echo "$(date '+%Y-%m-%d %H:%M:%S') HTTP request sent to $BASE_URL"
     fi
 }
 
-# Function to rotate logs
-rotate_logs() {
-    log_size=$(wc -c <"$LOG_FILE")
-    if [ "$log_size" -ge "$MAX_LOG_SIZE" ]; then
-        for i in {4..1}; do
-            if [ -f "$LOG_FILE.$i" ]; then
-                mv "$LOG_FILE.$i" "$LOG_FILE.$((i + 1))"
-            fi
-        done
-        mv "$LOG_FILE" "$LOG_FILE.1"
-        touch $LOG_FILE
-    fi
-}
-
-# Function to log messages
-log_info() {
-    echo "$(date '+%Y-%m-%d %H:%M:%S') INFO: $1" >> $LOG_FILE
-    rotate_logs
-}
-
-log_error() {
-    echo "$(date '+%Y-%m-%d %H:%M:%S') ERROR: $1" >> $LOG_FILE
-    rotate_logs
-}
-
-# Function to parse command-line arguments
-parse_args() {
-    while [[ $# -gt 0 ]]; do
-        case $1 in
+# Main function
+main() {
+    # Parse command-line arguments
+    while [ $# -gt 0 ]; do
+        case "$1" in
             --isp)
                 ISP="$2"
                 shift 2
@@ -49,82 +44,25 @@ parse_args() {
                 BASE_URL="$2"
                 shift 2
                 ;;
-            --interval)
-                INTERVAL="$2"
-                shift 2
-                ;;
             *)
-                log_error "Invalid option: $1"
+                echo "$(date '+%Y-%m-%d %H:%M:%S') Unknown option: $1"
                 exit 1
                 ;;
         esac
     done
-}
 
-# Function to perform ping and return average time
-perform_ping() {
-    ping_result=$(ping -c 1 $ISP | awk -F'/' 'END {print $5}')
-    if [ -z "$ping_result" ]; then
-        log_error "Ping failed"
-        ping_result='N/A'
+    # Check if ISP and BASE_URL are provided
+    if [ -z "$ISP" ] || [ -z "$BASE_URL" ]; then
+        echo "$(date '+%Y-%m-%d %H:%M:%S') Usage: $0 --isp <ISP_IP> --base_url <BASE_URL>"
+        exit 1
     fi
-    echo $ping_result
+
+    # Perform initial ping test
+    perform_ping "$ISP"
+    
+    # Perform HTTP request with ping result
+    perform_http_request "$BASE_URL" "$ping_result"
 }
 
-# Function to perform HTTP request
-perform_http_request() {
-    local url=$1
-    response=$(curl -s -m $CURL_TIMEOUT -w "%{http_code}" -o /dev/null $url)
-    if [ $? -eq 0 ]; then
-        log_info "CURL command executed. Response status: $response"
-    else
-        log_error "Failed to execute CURL command"
-    fi
-}
-
-# Main function
-main() {
-    setup_logging
-
-    log_info "START"
-    log_info "ISP: $ISP"
-    log_info "BASE_URL: $BASE_URL"
-
-    while true; do
-        ping_result=$(perform_ping)
-        url="${BASE_URL}?status=up&msg=OK&ping=${ping_result}"
-
-        log_info "FULL_URL: $url"
-
-        perform_http_request $url
-
-        if [ -z "$INTERVAL" ]; then
-            break
-        else
-            log_info "Sleeping for $INTERVAL seconds"
-            sleep $INTERVAL
-        fi
-    done
-}
-
-# Source environment variables (if any)
-if [ -f ".env" ]; then
-    source .env
-fi
-
-# Parse command-line arguments
-parse_args "$@"
-
-# Check if ISP and BASE_URL are provided
-if [ -z "$ISP" ]; then
-    log_error "No ISP provided. Please provide an ISP to ping."
-    exit 1
-fi
-
-if [ -z "$BASE_URL" ]; then
-    log_error "No BASE_URL provided. Please provide a BASE_URL for the HTTP request."
-    exit 1
-fi
-
-# Run the main function
-main
+# Call main function with command-line arguments
+main "$@"
