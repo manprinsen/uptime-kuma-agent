@@ -1,8 +1,10 @@
-# uptime-kuma-agent on non-embedded system
+# Uptime Kuma Push Agent
 
-## Project Setup and Usage
+This repository contains scripts and instructions for setting up an Uptime Kuma Push Agent. Once you have added a push device in Uptime Kuma, you can use this repository to monitor network uptime and send results to your Uptime Kuma server. The agent is designed to run on both non-embedded systems (such as desktops and servers) and embedded systems (such as IoT devices and routers).
 
-This document provides instructions for setting up and using the program.py script. The script involves pinging an ISP and sending the results to a specified base URL.
+## Project Setup and Usage for non-embedded systems
+
+Below are instructions on how to use and deploy program.py on non-embedded systems (desktops and servers).
 
 ### Prerequisites
 
@@ -54,13 +56,13 @@ pip install -r requirements.txt
 To test the script, run the following command:
 
 ```bash
-python3 program.py --isp "100.0.0.1" --base_url "https://monitoring.carlbomsdata.se/api/push/kNSkNgEjV4"
+python3 program.py --isp "1.1.1.1" --base_url "https://monitoring.example.com/api/push/XXXXXX"
 ```
 
 This example will ping the ISP server at `8.8.8.8` and send the results to the specified URL every 60 seconds.
 
 ```bash
-python3 program.py --isp "8.8.8.8" --base_url "https://monitoring.carlbomsdata.se/api/push/kNSkNgEjV4" --interval 60
+python3 program.py --isp "8.8.8.8" --base_url "https://monitoring.example.com/api/push/XXXXXX" --interval 60
 ```
 
 ### Tested Systems
@@ -114,7 +116,7 @@ crontab -e
 Enter the following line to run the script every minute:
 
 ```bash
-* * * * * /root/program --isp "1.1.1.1" --base_url "https://monitoring.carlbomsdata.se/api/push/fUb1rTKnVW"
+* * * * * /root/program --isp "1.1.1.1" --base_url "https://monitoring.example.com/api/push/XXXXXX"
 ```
 
 Schedule executable using Task Scheduler on Synology NAS:
@@ -122,11 +124,9 @@ Schedule executable using Task Scheduler on Synology NAS:
 ...
 
 
-# uptime-kuma-agent on embedded system
+## Project Setup and Usage on embedded systems
 
-## Project Setup and Usage
-
-This document provides instructions for setting up and using the program.sh. The script involves pinging an ISP and sending the results to a specified base URL.
+Below are instructions on how to use and deploy program.sh on a embedded system eg routers or IoT devices.
 
 ### Prerequisites
 
@@ -144,12 +144,16 @@ Run the following command to make the script executable privileges:
 chmod +x program.sh
 ```
 
+### Verify Path
+
+Open up program.sh in your editor of choice and verify that the log file path is correct. By default its /root/uptime-kuma-agent/log.txt
+
 ### Testing the Script
 
 To test the script, run the following command:
 
 ```bash
-./program.sh --isp "100.0.0.1" --base_url "https://monitoring.carlbomsdata.se/api/push/kNSkNgEjV4"
+./program.sh --isp "100.0.0.1" --base_url "https://monitoring.example.com/api/push/XXXXXX"
 ```
 
 ### Deployment
@@ -163,7 +167,7 @@ crontab -e
 Enter the following line to run the script every minute:
 
 ```bash
-* * * * * /root/uptime-kuma-agent/program.sh --isp "1.1.1.1" --base_url "https://monitoring.carlbomsdata.se/api/push/fUb1rTKnVW" >> /root/uptime-kuma-agent/debug.log 2>&1
+* * * * * /root/uptime-kuma-agent/program.sh --isp "1.1.1.1" --base_url "https://monitoring.example.com/api/push/XXXXXX"
 ```
 
 ### Tested Systems
