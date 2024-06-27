@@ -62,7 +62,7 @@ args = parser.parse_args()
 
 # Source the environment variables and override with command-line arguments if provided
 ISP = args.isp or os.getenv('ISP', '127.0.0.1')
-BASE_URL = args.base_url or os.getenv('BASE_URL', 'https://monitoring.carlbomsdata.com/api/push/kNSkNgEjV4')
+BASE_URL = args.base_url or os.getenv('BASE_URL', 'https://monitoring.example.com/api/push/XXXXXX')
 INTERVAL = args.interval
 
 # Log if ISP or BASE_URL is not provided
