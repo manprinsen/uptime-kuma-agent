@@ -63,6 +63,14 @@ This example will ping the ISP server at `8.8.8.8` and send the results to the s
 python3 program.py --isp "8.8.8.8" --base_url "https://monitoring.carlbomsdata.se/api/push/kNSkNgEjV4" --interval 60
 ```
 
+### Tested Systems
+
+* Windows 11 (Build ..)
+* Ubuntu Desktop 22.04
+* Raspberry Pi 4 (version ..)
+* Synology NAS (DSM7.4)
+  
+
 ### Building the Executable
 
 To build the project into a standalone executable, use PyInstaller:
@@ -157,3 +165,7 @@ Enter the following line to run the script every minute:
 ```bash
 * * * * * /root/uptime-kuma-agent/program.sh --isp "1.1.1.1" --base_url "https://monitoring.carlbomsdata.se/api/push/fUb1rTKnVW" >> /root/uptime-kuma-agent/debug.log 2>&1
 ```
+
+### Tested Systems
+
+* Teltonika RUT955
