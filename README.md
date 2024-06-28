@@ -65,14 +65,6 @@ This example will ping the ISP server at `8.8.8.8` and send the results to the s
 python3 program.py --isp "8.8.8.8" --base_url "https://monitoring.example.com/api/push/XXXXXX" --interval 60
 ```
 
-### Tested Systems
-
-* Windows 11 (Build ..)
-* Ubuntu Desktop 22.04
-* Raspberry Pi 4 (version ..)
-* Synology NAS (DSM7.4)
-  
-
 ### Building the Executable
 
 To build the project into a standalone executable, use PyInstaller:
@@ -122,6 +114,13 @@ Enter the following line to run the script every minute:
 Schedule executable using Task Scheduler on Synology NAS:
 
 ...
+
+### Tested Systems
+
+* Windows 11 (Build ..)
+* Ubuntu Desktop 22.04
+* Raspberry Pi 4 (version ..)
+* Synology NAS (DSM7.4)
 
 
 ## Project Setup and Usage on embedded systems
@@ -173,3 +172,8 @@ Enter the following line to run the script every minute:
 ### Tested Systems
 
 * Teltonika RUT955
+
+
+## Future Plans
+
+* Be able to send get request to multiple Uptime Kuma Push Devices. Eg if this software runs on a customers network, this software can be installed on a central machine which will be able to ping PCs on the network. Then one does not have to install this software on every PC. The Uptime Kuma Server can they be located on a completely different network, preferably a VPS.
