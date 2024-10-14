@@ -176,5 +176,5 @@ Enter the following line to run the script every minute:
 
 ## Future Plans
 
-* Be able to send get request to multiple Uptime Kuma Push Devices. Eg if this software runs on a customers network, this software can be installed on a central machine which will be able to ping PCs on the network. Then one does not have to install this software on every PC. The Uptime Kuma Server can they be located on a completely different network, preferably a VPS.
+* Be able to send get request to multiple Uptime Kuma Push Devices. Eg if this software runs on a customers network, this software can be installed on a central machine which will be able to ping PCs on the network. Then one does not have to install this software on every PC. The Uptime Kuma Server can then be located on a completely different network, preferably a VPS.
 * Test and add support for more embedded systems eg Unifi USG, Advancech, Moxa, Pfsense, Codesys, Siemens WinCC, IX Developer
